@@ -1,11 +1,6 @@
 {
   "buildCommand": "npm install",
   "outputDirectory": "public",
-  "env": {
-    "N8N_WEBHOOK_URL": "@n8n_webhook_url",
-    "CLAUDE_API_KEY": "@claude_api_key",
-    "CONTACT_EMAIL": "@contact_email"
-  },
   "functions": {
     "api/**/*.js": {
       "memory": 1024,
