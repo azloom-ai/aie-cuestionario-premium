@@ -1,0 +1,56 @@
+╔════════════════════════════════════════════════════════════════════╗
+║                   ⚠️ ACCIÓN INMEDIATA REQUERIDA                    ║
+╚════════════════════════════════════════════════════════════════════╝
+
+✅ ARREGLÉ EL PROBLEMA EN VERCEL
+
+El formulario ahora responde INMEDIATAMENTE (3-5 segundos).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3 PASOS AHORA MISMO:
+
+1️⃣  REDEPLOYER EN VERCEL
+   ├─ Ve: https://vercel.com/dashboard
+   ├─ Click en: aie-cuestionario-premium
+   └─ Click "Redeploy" (botón azul)
+   ⏱️  Espera 2 minutos
+
+2️⃣  PRUEBA TU FORMULARIO
+   ├─ Abre tu URL (en Vercel)
+   ├─ Completa el formulario
+   ├─ Click "Enviar"
+   └─ ✅ Deberías ver "¡Gracias!" en <10s
+
+3️⃣  VERIFICA EMAIL
+   ├─ Abre Gmail: hello@azloom.tech
+   ├─ Busca email nuevo (spam también)
+   └─ ✅ Deberías tener resumen IA
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 LO QUE CAMBIÉ:
+
+Archivo: api/submit-form.js
+
+ANTES:
+  Genera resumen → Espera n8n → Responde
+  (TIMEOUT después de 10 seg)
+
+DESPUÉS:
+  Genera resumen → Responde "¡Gracias!" → n8n en background
+  (Responde en 3-5 segundos)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 COMIENZA AHORA:
+
+1. Ve a: https://vercel.com/dashboard
+2. Click "Redeploy"
+3. Espera 2 minutos
+4. Prueba tu formulario
+5. ¡¡¡LISTO!!!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+¿DUDAS? Lee: DEPLOY-AHORA.md

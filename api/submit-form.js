@@ -1,3 +1,5 @@
+import nodemailer from "nodemailer";
+
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -18,21 +20,21 @@ export default async function handler(req, res) {
 
   try {
     const datos = req.body;
-    console.log("📨 Datos recibidos de:", datos.nombre);
+    console.log("📨 Formulario recibido de:", datos.nombre);
 
-    if (!datos.nombre) {
-      return res.status(400).json({ error: "Nombre requerido" });
+    if (!datos.nombre || !datos.correo) {
+      return res.status(400).json({ error: "Nombre y email requeridos" });
     }
 
-    // Formatear respuestas para el email
-    const respuestas = `
+    // Formatear respuestas
+    const respuestasTexto = `
 CUESTIONARIO AIE CONSTRUCTORA - RESPUESTAS
 ═══════════════════════════════════════════════
 
 DATOS DE CONTACTO:
 • Nombre: ${datos.nombre}
 • Email: ${datos.correo}
-• WhatsApp: ${datos.whatsapp}
+• WhatsApp: ${datos.whatsapp || "N/A"}
 
 MÓDULOS ACTIVOS:
 ${datos.modulos ? (Array.isArray(datos.modulos) ? datos.modulos.map(m => `• ${m}`).join('\n') : `• ${datos.modulos}`) : "N/A"}
@@ -69,34 +71,34 @@ PROBLEMAS Y VISIÓN:
 Enviado: ${new Date().toLocaleString("es-MX")}
 `;
 
-    // Responder INMEDIATAMENTE al cliente
-    res.status(200).json({
-      success: true,
-      message: `¡Gracias, ${datos.nombre}!`,
-      timestamp: new Date().toISOString(),
+    // Configurar transporte de email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASSWORD,
+      },
     });
 
-    // Enviar a n8n en background (sin bloquear)
-    if (process.env.N8N_WEBHOOK_URL) {
-      const payload = {
-        nombre: datos.nombre,
-        correo: datos.correo,
-        whatsapp: datos.whatsapp,
-        respuestas: respuestas,
-        datos_completos: datos,
-        timestamp: new Date().toISOString(),
-      };
+    console.log("📧 Enviando email a:", datos.correo);
 
-      fetch(process.env.N8N_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      })
-        .then(r => console.log("✅ Datos enviados a n8n:", r.status))
-        .catch(e => console.log("⚠️ Error n8n:", e.message));
-    } else {
-      console.log("⚠️ N8N_WEBHOOK_URL no configurada");
-    }
+    // Enviar email
+    const mailOptions = {
+      from: process.env.GMAIL_USER,
+      to: datos.correo,
+      subject: `Cuestionario recibido: ${datos.nombre}`,
+      text: respuestasTexto,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("✅ Email enviado exitosamente");
+
+    // Responder al cliente
+    return res.status(200).json({
+      success: true,
+      message: `¡Gracias, ${datos.nombre}! Hemos enviado tus respuestas a ${datos.correo}`,
+      timestamp: new Date().toISOString(),
+    });
 
   } catch (error) {
     console.error("❌ Error:", error.message);
