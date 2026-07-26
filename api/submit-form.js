@@ -69,7 +69,7 @@ Sé conciso, profesional y directo. El resumen debe ser leíble en máximo 5 min
 `;
 
   const message = await client.messages.create({
-    model: "claude-3-5-sonnet-20241022",
+    model: "claude-opus-4-1",
     max_tokens: 1024,
     messages: [
       {
