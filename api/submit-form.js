@@ -39,22 +39,22 @@ Sé conciso y profesional.`;
     });
 
     if (!response || !response.content || response.content.length === 0) {
-      console.warn("⚠️ Claude devolvió respuesta vacía");
-      return "Resumen disponible - procesamiento completado";
+      throw new Error("Claude devolvió respuesta vacía");
     }
 
     const texto = response.content[0].text;
     if (!texto) {
-      console.warn("⚠️ Contenido de texto vacío");
-      return "Resumen disponible - procesamiento completado";
+      throw new Error("Contenido de texto vacío de Claude");
     }
 
     console.log("✅ Resumen generado exitosamente");
     return texto;
   } catch (error) {
-    console.error("❌ Error en Claude:", error.message);
-    console.error("Detalles:", error);
-    return "Resumen disponible - procesamiento completado";
+    console.error("❌ ERROR CLAUDE:", error.message);
+    console.error("Código:", error.code);
+    console.error("Status:", error.status);
+    console.error("Stack completo:", error);
+    throw error;
   }
 }
 
