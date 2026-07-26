@@ -1,6 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-const client = new Anthropic();
+const client = new Anthropic({
+  apiKey: process.env.CLAUDE_API_KEY
+});
 
 async function generarResumen(datos) {
   const prompt = `
