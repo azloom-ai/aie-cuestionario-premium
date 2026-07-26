@@ -6,74 +6,51 @@ const client = new Anthropic({
 });
 
 async function generarResumen(datos) {
-  const prompt = `
-Eres un experto en consultoría de procesos de construcción. Analiza las siguientes respuestas de un cuestionario de AIE Constructora y genera un resumen ejecutivo conciso y profesional.
+  try {
+    const prompt = `Eres experto en consultoría. Analiza estas respuestas y genera un resumen ejecutivo.
 
-**RESPUESTAS DEL CLIENTE:**
+DATOS:
+• Nombre: ${datos.nombre}
+• Problemas: ${datos.dolor_de_cabeza}
+• Visión: ${datos.vision_ideal}
+• Módulos: ${Array.isArray(datos.modulos) ? datos.modulos.join(", ") : datos.modulos}
+• Sistemas: ${datos.otros_sistemas}
+• Proveedores: ${datos.num_proveedores}
 
-Nombre: ${datos.nombre || "No proporcionado"}
-Email: ${datos.correo || "No proporcionado"}
-WhatsApp: ${datos.whatsapp || "No proporcionado"}
+GENERA:
+1. Estado Actual (2-3 líneas)
+2. Puntos Críticos (3-5 puntos)
+3. Oportunidades de Mejora (3-5 puntos)
+4. Recomendación (2-3 líneas)
 
-**MÓDULOS ACTIVOS:**
-${datos.modulos ? (Array.isArray(datos.modulos) ? datos.modulos.join(", ") : datos.modulos) : "No especificado"}
+Sé conciso y profesional.`;
 
-**SISTEMAS ACTUALES:**
-${datos.otros_sistemas || "No especificado"}
+    console.log("🤖 Llamando a Claude...");
+    const message = await client.messages.create({
+      model: "claude-opus-5",
+      max_tokens: 1024,
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
 
-**PROVEEDORES:**
-Cantidad: ${datos.num_proveedores || "No especificado"}
-Canales de entrada: ${Array.isArray(datos.canal_facturas) ? datos.canal_facturas.join(", ") : datos.canal_facturas || "No especificado"}
-Acceso de proveedores: ${datos.acceso_proveedores || "No especificado"}
+    console.log("📊 Respuesta de Claude:", JSON.stringify(message.content));
 
-**APROBACIÓN Y PAGO:**
-Responsables de aprobación: ${datos.quien_aprueba || "No especificado"}
-Método de pago: ${datos.donde_se_paga || "No especificado"}
-Políticas de crédito: ${datos.dias_credito_pago || "No especificado"}
-
-**CONTABILIDAD:**
-Doble digitación: ${datos.doble_digitacion || "No especificado"}
-
-**REPORTES:**
-Frecuencia: ${datos.frecuencia_informe || "No especificado"}
-
-**MATERIALES:**
-Análisis: ${datos.facturado_vs_usado || "No especificado"}
-Control de bodega: ${datos.control_bodega || "No especificado"}
-
-**PROBLEMAS IDENTIFICADOS:**
-${datos.dolor_de_cabeza || "No especificado"}
-
-**VISIÓN IDEAL:**
-${datos.vision_ideal || "No especificado"}
-
----
-
-Por favor, genera un RESUMEN EJECUTIVO que incluya:
-
-1. **Estado Actual** (2-3 líneas): Descripción breve del proceso actual.
-
-2. **Puntos Críticos** (3-5 puntos): Los problemas principales identificados.
-
-3. **Oportunidades de Mejora** (3-5 puntos): Áreas clave donde Azloom puede agregar valor.
-
-4. **Recomendación** (2-3 líneas): Una sugerencia general sobre el enfoque para la solución.
-
-Sé conciso, profesional y directo.
-`;
-
-  const message = await client.messages.create({
-    model: "claude-opus-5",
-    max_tokens: 1024,
-    messages: [
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-  });
-
-  return message.content[0].type === "text" ? message.content[0].text : "";
+    if (message.content && message.content.length > 0 && message.content[0].text) {
+      const resumen = message.content[0].text;
+      console.log("✅ Resumen generado correctamente");
+      return resumen;
+    } else {
+      console.warn("⚠️ Claude devolvió respuesta vacía");
+      return "Resumen no disponible";
+    }
+  } catch (error) {
+    console.error("❌ Error en Claude:", error.message);
+    return "Resumen no disponible debido a error en procesamiento";
+  }
 }
 
 export default async function handler(req, res) {
