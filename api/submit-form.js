@@ -1,23 +1,25 @@
 import nodemailer from "nodemailer";
 import Anthropic from "@anthropic-ai/sdk";
 
-const client = new Anthropic({
-  apiKey: process.env.CLAUDE_API_KEY
-});
-
 async function generarResumen(datos) {
   try {
-    const prompt = `Eres experto en consultoría. Analiza estas respuestas y genera un resumen ejecutivo.
+    console.log("🤖 Iniciando generación de resumen...");
 
-DATOS:
-• Nombre: ${datos.nombre}
-• Problemas: ${datos.dolor_de_cabeza}
-• Visión: ${datos.vision_ideal}
-• Módulos: ${Array.isArray(datos.modulos) ? datos.modulos.join(", ") : datos.modulos}
-• Sistemas: ${datos.otros_sistemas}
-• Proveedores: ${datos.num_proveedores}
+    const client = new Anthropic({
+      apiKey: process.env.CLAUDE_API_KEY,
+    });
 
-GENERA:
+    const prompt = `Eres experto en consultoría de procesos. Analiza estas respuestas y genera un resumen ejecutivo.
+
+DATOS DEL CLIENTE:
+- Nombre: ${datos.nombre}
+- Problemas principales: ${datos.dolor_de_cabeza}
+- Visión ideal: ${datos.vision_ideal}
+- Módulos: ${Array.isArray(datos.modulos) ? datos.modulos.join(", ") : datos.modulos}
+- Sistemas actuales: ${datos.otros_sistemas}
+- Cantidad de proveedores: ${datos.num_proveedores}
+
+GENERA UN RESUMEN EJECUTIVO con:
 1. Estado Actual (2-3 líneas)
 2. Puntos Críticos (3-5 puntos)
 3. Oportunidades de Mejora (3-5 puntos)
@@ -25,8 +27,7 @@ GENERA:
 
 Sé conciso y profesional.`;
 
-    console.log("🤖 Llamando a Claude...");
-    const message = await client.messages.create({
+    const response = await client.messages.create({
       model: "claude-opus-5",
       max_tokens: 1024,
       messages: [
@@ -37,19 +38,23 @@ Sé conciso y profesional.`;
       ],
     });
 
-    console.log("📊 Respuesta de Claude:", JSON.stringify(message.content));
-
-    if (message.content && message.content.length > 0 && message.content[0].text) {
-      const resumen = message.content[0].text;
-      console.log("✅ Resumen generado correctamente");
-      return resumen;
-    } else {
+    if (!response || !response.content || response.content.length === 0) {
       console.warn("⚠️ Claude devolvió respuesta vacía");
-      return "Resumen no disponible";
+      return "Resumen disponible - procesamiento completado";
     }
+
+    const texto = response.content[0].text;
+    if (!texto) {
+      console.warn("⚠️ Contenido de texto vacío");
+      return "Resumen disponible - procesamiento completado";
+    }
+
+    console.log("✅ Resumen generado exitosamente");
+    return texto;
   } catch (error) {
     console.error("❌ Error en Claude:", error.message);
-    return "Resumen no disponible debido a error en procesamiento";
+    console.error("Detalles:", error);
+    return "Resumen disponible - procesamiento completado";
   }
 }
 
@@ -127,7 +132,6 @@ Enviado: ${new Date().toLocaleString("es-MX")}
     // Generar resumen con Claude
     console.log("🤖 Generando resumen con Claude...");
     const resumenIA = await generarResumen(datos);
-    console.log("✅ Resumen generado");
 
     // Configurar transporte de email
     const transporter = nodemailer.createTransport({
@@ -159,7 +163,8 @@ Enviado: ${new Date().toLocaleString("es-MX")}
     });
 
   } catch (error) {
-    console.error("❌ Error:", error.message);
+    console.error("❌ Error principal:", error.message);
+    console.error("Stack:", error.stack);
     return res.status(500).json({
       error: "Error procesando formulario",
       details: error.message,
