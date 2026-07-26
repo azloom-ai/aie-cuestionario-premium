@@ -69,7 +69,7 @@ Sé conciso, profesional y directo. El resumen debe ser leíble en máximo 5 min
 `;
 
   const message = await client.messages.create({
-    model: "claude-3-opus-20240229",
+    model: "claude-opus-4.1",
     max_tokens: 1024,
     messages: [
       {
@@ -82,60 +82,7 @@ Sé conciso, profesional y directo. El resumen debe ser leíble en máximo 5 min
   return message.content[0].type === "text" ? message.content[0].text : "";
 }
 
-function formatearRespuestas(datos) {
-  const resumen = `
-╔════════════════════════════════════════════════════════════════╗
-║          CUESTIONARIO AIE CONSTRUCTORA - RESPUESTAS            ║
-╚════════════════════════════════════════════════════════════════╝
-
-👤 DATOS DE CONTACTO
-├─ Nombre: ${datos.nombre}
-├─ Email: ${datos.correo}
-└─ WhatsApp: ${datos.whatsapp}
-
-🏢 SISTEMA ACTUAL
-├─ Módulos activos: ${
-    Array.isArray(datos.modulos) ? datos.modulos.join(", ") : datos.modulos || "N/A"
-  }
-${datos.modulos_otro ? `├─ Otros módulos: ${datos.modulos_otro}\n` : ""}
-└─ Otros sistemas: ${datos.otros_sistemas || "N/A"}
-
-🧾 PROVEEDORES (${datos.num_proveedores || "N/A"} activos)
-├─ Canales de entrada: ${
-    Array.isArray(datos.canal_facturas)
-      ? datos.canal_facturas.join(", ")
-      : datos.canal_facturas || "N/A"
-  }
-└─ Acceso de proveedores: ${datos.acceso_proveedores || "N/A"}
-
-✓ APROBACIÓN Y PAGO
-├─ Quién aprueba: ${datos.quien_aprueba || "N/A"}
-├─ Dónde se paga: ${datos.donde_se_paga || "N/A"}
-└─ Días de crédito: ${datos.dias_credito_pago || "N/A"}
-
-🧮 CONTABILIDAD
-└─ Doble digitación: ${datos.doble_digitacion || "N/A"}
-
-📊 REPORTES
-└─ Frecuencia: ${datos.frecuencia_informe || "N/A"}
-
-🪵 MATERIALES
-├─ Facturado vs usado: ${datos.facturado_vs_usado || "N/A"}
-└─ Control de bodega: ${datos.control_bodega || "N/A"}
-
-🎯 PROBLEMAS Y VISIÓN
-├─ Dolor de cabeza: ${datos.dolor_de_cabeza || "N/A"}
-└─ Visión ideal: ${datos.vision_ideal || "N/A"}
-
-════════════════════════════════════════════════════════════════
-Enviado: ${new Date().toLocaleString("es-MX")}
-`;
-
-  return resumen;
-}
-
 export default async function handler(req, res) {
-  // CORS headers
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
@@ -155,59 +102,48 @@ export default async function handler(req, res) {
 
   try {
     const datos = req.body;
+    console.log("📨 Datos recibidos de:", datos.nombre);
 
-    console.log("📨 Datos recibidos:", datos);
-
-    // 1️⃣ Generar resumen con Claude
-    console.log("🤖 Generando resumen con Claude...");
-    const resumenIA = await generarResumen(datos);
-
-    // 2️⃣ Formatear respuestas
-    const respuestasFormateadas = formatearRespuestas(datos);
-
-    // 3️⃣ Preparar payload para n8n
-    const payload = {
-      nombre: datos.nombre,
-      correo: datos.correo,
-      whatsapp: datos.whatsapp,
-      respuestas: respuestasFormateadas,
-      resumen_ia: resumenIA,
-      datos_completos: datos,
-      timestamp: new Date().toISOString(),
-      origen: "cuestionario-aie-premium",
-    };
-
-    // 4️⃣ Enviar a n8n webhook
-    if (process.env.N8N_WEBHOOK_URL) {
-      console.log("🔗 Enviando a n8n...");
-      try {
-        const n8nResponse = await fetch(process.env.N8N_WEBHOOK_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (!n8nResponse.ok) {
-          console.error("⚠️ N8n respondió con:", n8nResponse.status);
-        }
-      } catch (n8nError) {
-        console.error("⚠️ Error enviando a n8n:", n8nError);
-        // Continuamos de todas formas
-      }
+    if (!datos.nombre) {
+      return res.status(400).json({ error: "Nombre requerido" });
     }
 
-    // 5️⃣ Responder al cliente
-    return res.status(200).json({
+    console.log("🤖 Generando resumen con Claude...");
+    const resumenIA = await generarResumen(datos);
+    console.log("✅ Resumen generado");
+
+    // Responder INMEDIATAMENTE al cliente
+    res.status(200).json({
       success: true,
-      message: "Formulario procesado correctamente",
-      payload,
+      message: `¡Gracias, ${datos.nombre}!`,
+      timestamp: new Date().toISOString(),
     });
+
+    // Enviar a n8n en background (sin bloquear)
+    if (process.env.N8N_WEBHOOK_URL) {
+      const payload = {
+        nombre: datos.nombre,
+        correo: datos.correo,
+        whatsapp: datos.whatsapp,
+        resumen_ia: resumenIA,
+        datos_completos: datos,
+        timestamp: new Date().toISOString(),
+      };
+
+      // Fire and forget - no await
+      fetch(process.env.N8N_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then(r => console.log("✅ n8n respondió:", r.status))
+        .catch(e => console.log("⚠️ n8n error:", e.message));
+    }
+
   } catch (error) {
-    console.error("❌ Error procesando formulario:", error);
+    console.error("❌ Error:", error.message);
     return res.status(500).json({
-      error: "Error al procesar el formulario",
+      error: "Error procesando formulario",
       details: error.message,
     });
   }
