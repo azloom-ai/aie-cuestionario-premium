@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario de Proyecto – AIE Constructora | Azloom Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@100;300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --carbon: #05050A;
+    --carbon-2: #0F0F1A;
+    --page-bg: #F8F9FB;
+    --card-bg: #FFFFFF;
+    --purple: #7C6CF0;
+    --purple-bright: #6E5AF0;
+    --purple-tint: #F3F1FE;
+    --purple-dim: #C9C1FA;
+    --purple-dark: #4A3BA8;
+    --purple-light: #E8E5FF;
+    --gold: #D4AF37;
+    --ink: #0D0D15;
+    --ink-dim: #5B5966;
+    --ink-faint: #8F8DA0;
+    --border: #DDD8F0;
+    --success: #10B981;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: linear-gradient(180deg, var(--page-bg) 0%, #F0F2F8 100%);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 10% 20%, rgba(124, 108, 240, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(124, 108, 240, 0.06) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  h1,h2,h3{
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+    margin: 0;
+    font-weight: 700;
+  }
+  .mono{ font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em; }
+
+  /* progress bar */
+  #progress-wrap{
+    position: fixed;
+    top:0; left:0; right:0;
+    height: 4px;
+    background: rgba(228, 225, 245, 0.3);
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(228, 225, 245, 0.2);
+  }
+  #progress-bar{
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg,
+      var(--purple-dim) 0%,
+      var(--purple-bright) 50%,
+      var(--gold) 100%);
+    transition: width .25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(124, 108, 240, 0.6);
+    filter: drop-shadow(0 0 8px rgba(124, 108, 240, 0.4));
+  }
+
+  /* HERO */
+  header.hero{
+    position: relative;
+    background: linear-gradient(135deg,
+      var(--carbon) 0%,
+      #0a0a12 30%,
+      #150f25 70%,
+      #0f0f1a 100%);
+    color: #fff;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  }
+
+  header.hero::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 40%, rgba(124, 108, 240, 0.2) 0%, transparent 40%),
+      radial-gradient(circle at 85% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 0%, rgba(124, 108, 240, 0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  header.hero::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(124, 108, 240, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+
+  header.hero .stars span{
+    position:absolute;
+    border-radius:50%;
+    background: var(--purple-dim);
+    opacity:.2;
+    animation: twinkle 8s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(201, 193, 250, 0.6);
+  }
+
+  header.hero .stars span:nth-child(odd) {
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+    background: var(--gold);
+  }
+
+  @keyframes twinkle{
+    0%,100%{opacity:.1;}
+    50%{opacity:.7;}
+  }
+
+  .hero-inner{
+    position:relative;
+    z-index:1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 30px 60px;
+  }
+
+  .logo-mark{
+    display:inline-flex;
+    align-items:center;
+    gap: 12px;
+    margin-bottom: 50px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.08em;
+    color: #D4AF37;
+    animation: slideInDown 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-transform: uppercase;
+  }
+  .logo-mark .oo{
+    color: var(--purple-dim);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .logo-mark::before{
+    content:"";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 16px var(--gold), 0 0 24px rgba(212, 175, 55, 0.6);
+  }
+
+  @keyframes slideInDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(212, 175, 55, 0.8);
+    margin-bottom: 20px;
+    display:block;
+    animation: slideInDown 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s backwards;
+    font-weight: 600;
+  }
+
+  h1.title{
+    font-size: clamp(32px, 5.5vw, 56px);
+    font-weight: 800;
+    line-height: 1.05;
+    color: #fff;
+    max-width: 700px;
+    animation: slideInDown 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s backwards;
+    letter-spacing: -0.02em;
+  }
+
+  h1.title::before{
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--purple-dim));
+    margin-bottom: 20px;
+    border-radius: 999px;
+  }
+
+  .greeting{
+    margin-top: 28px;
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 620px;
+    animation: slideInDown 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+  .greeting strong{
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .tag-row{
+    margin-top: 36px;
+    display:flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    animation: slideInDown 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s backwards;
+  }
+  .tag{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: rgba(124, 108, 240, 0.1);
+    border: 1.5px solid rgba(212, 175, 55, 0.3);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-weight: 500;
+  }
+  .tag:hover{
+    background: rgba(124, 108, 240, 0.2);
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+  }
+
+  main{
+    position: relative;
+    max-width: 820px;
+    margin: -40px auto 0;
+    padding: 0 30px 160px;
+  }
+
+  form{ display:flex; flex-direction:column; gap: 32px; }
+
+  .card{
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 255, 255, 0.95) 100%);
+    border: 1.5px solid rgba(124, 108, 240, 0.15);
+    border-radius: 20px;
+    padding: 44px 38px;
+    box-shadow:
+      0 8px 32px rgba(124, 108, 240, 0.08),
+      0 20px 60px rgba(0, 0, 0, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 100% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .card:hover{
+    border-color: rgba(212, 175, 55, 0.3);
+    box-shadow:
+      0 12px 48px rgba(124, 108, 240, 0.15),
+      0 30px 80px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transform: translateY(-6px);
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-head{
+    display:flex;
+    align-items:flex-start;
+    gap: 22px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1.5px solid rgba(212, 175, 55, 0.1);
+  }
+
+  .icon-badge{
+    flex: none;
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(124, 108, 240, 0.15) 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size: 32px;
+    border: 1.5px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 4px 16px rgba(124, 108, 240, 0.1);
+  }
+
+  .section-title{
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .section-sub{
+    color: var(--ink-dim);
+    font-size: 14px;
+    margin-top: 6px;
+    font-weight: 400;
+  }
+
+  .q{ margin-bottom: 32px; }
+  .q:last-child{ margin-bottom: 0; }
+
+  .q-label{
+    display:block;
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .q-label .req{
+    color: var(--gold);
+    margin-left: 3px;
+    font-weight: 800;
+  }
+
+  .q-hint{
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .q-hint .az{
+    color: var(--gold);
+    font-weight: 800;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  textarea{
+    width: 100%;
+    background: linear-gradient(135deg, rgba(251, 250, 255, 0.8) 0%, rgba(254, 252, 255, 0.6) 100%);
+    border: 1.5px solid rgba(212, 175, 55, 0.1);
+    color: var(--ink);
+    border-radius: 14px;
+    padding: 15px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px;
+    transition: all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-weight: 400;
+  }
+
+  textarea{
+    min-height: 110px;
+    resize: vertical;
+  }
+
+  input::placeholder,
+  textarea::placeholder{
+    color: var(--ink-faint);
+  }
+
+  input:focus,
+  textarea:focus{
+    outline: none;
+    border-color: var(--gold);
+    background: #fff;
+    box-shadow:
+      0 0 0 4px rgba(212, 175, 55, 0.12),
+      0 8px 24px rgba(124, 108, 240, 0.1);
+  }
+
+  input:focus-visible,
+  textarea:focus-visible,
+  .chip label:focus-visible,
+  .file-btn:focus-visible,
+  button:focus-visible{
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  input[readonly]{
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(124, 108, 240, 0.08) 100%);
+    color: var(--ink-dim);
+    border-color: rgba(212, 175, 55, 0.15);
+  }
+
+  .two-col{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 560px){
+    .two-col{
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .chip-group{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .chip{
+    position: relative;
+  }
+
+  .chip input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+  }
+
+  .chip label{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    cursor: pointer;
+    padding: 11px 18px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(212, 175, 55, 0.15);
+    background: linear-gradient(135deg, rgba(251, 250, 255, 0.8) 0%, rgba(254, 252, 255, 0.6) 100%);
+    color: var(--ink-dim);
+    font-size: 14px;
+    transition: all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+    font-weight: 500;
+  }
+
+  .chip input:checked + label{
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(124, 108, 240, 0.15) 100%);
+    border-color: var(--gold);
+    color: var(--gold);
+    font-weight: 700;
+    box-shadow:
+      0 6px 16px rgba(212, 175, 55, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  .chip label:hover{
+    border-color: var(--gold);
+    color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+  }
+
+  .file-row{
+    display:flex;
+    align-items:center;
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  .file-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding: 13px 20px;
+    border-radius: 14px;
+    border: 1.5px dashed var(--gold);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(124, 108, 240, 0.08) 100%);
+    color: var(--gold);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .file-btn:hover{
+    border-color: var(--gold);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(124, 108, 240, 0.12) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.15);
+  }
+
+  .file-name{
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 8px 12px;
+    background: rgba(212, 175, 55, 0.08);
+    border-radius: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+  }
+
+  input[type="file"]{
+    display:none;
+  }
+
+  .submit-card{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap: 18px;
+    border-style: solid;
+  }
+
+  button.submit{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    background: linear-gradient(135deg, var(--gold) 0%, #E5C158 50%, var(--purple-bright) 100%);
+    color: #fff;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    padding: 18px 42px;
+    border-radius: 14px;
+    transition: all .4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 12px 36px rgba(212, 175, 55, 0.35),
+      0 20px 60px rgba(124, 108, 240, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 16px;
+  }
+
+  button.submit::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,0.3),
+      transparent);
+    transform: translateX(-100%);
+  }
+
+  button.submit::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.2) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  button.submit:hover:not(:disabled){
+    background: linear-gradient(135deg, #E5C158 0%, var(--gold) 50%, #7C6CF0 100%);
+    box-shadow:
+      0 16px 48px rgba(212, 175, 55, 0.45),
+      0 30px 80px rgba(124, 108, 240, 0.3);
+    transform: translateY(-4px);
+  }
+
+  button.submit:hover:not(:disabled)::before{
+    animation: shine 0.7s ease;
+  }
+
+  @keyframes shine {
+    to { transform: translateX(100%); }
+  }
+
+  button.submit:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+  }
+
+  .submit-note{
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+
+  #thankyou{
+    display:none;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 140px 30px;
+    text-align: center;
+    animation: fadeIn 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  #thankyou .mark{
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 32px;
+    border-radius: 50%;
+    border: 2.5px solid var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: var(--gold);
+    font-size: 36px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(124, 108, 240, 0.1));
+    animation: scaleIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25);
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.6); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  #thankyou h2{
+    font-size: 32px;
+    margin-bottom: 14px;
+    color: var(--ink);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  #thankyou p{
+    color: var(--ink-dim);
+    font-size: 16px;
+    line-height: 1.8;
+    font-weight: 400;
+  }
+
+  footer{
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 44px 30px 80px;
+    border-top: 1.5px solid rgba(212, 175, 55, 0.1);
+    font-size: 13px;
+    color: var(--ink-faint);
+    line-height: 1.9;
+    font-weight: 400;
+  }
+
+  footer a{
+    color: var(--gold);
+    text-decoration:none;
+    transition: all 0.3s ease;
+    font-weight: 600;
+  }
+
+  footer a:hover{
+    color: var(--purple-bright);
+    text-decoration:underline;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.25);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  button.submit.loading .spinner {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  button.submit.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 560px){
+    .hero-inner{
+      padding: 60px 24px 48px;
+    }
+    .card{
+      padding: 32px 24px;
+    }
+    .section-head {
+      gap: 16px;
+    }
+    .icon-badge{
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+    }
+    h1.title {
+      font-size: 28px;
+    }
+    main {
+      padding: 0 24px 140px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    header.hero .stars span{ animation: none; opacity:.3; }
+    .logo-mark, .eyebrow, h1.title, .greeting, .tag-row { animation: none; }
+    button.submit:hover{ transform:none; }
+    .card { animation: none; }
+    #thankyou { animation: none; }
+    #thankyou .mark { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+
+<header class="hero">
+  <div class="stars" id="stars"></div>
+  <div class="hero-inner">
+    <div class="logo-mark">AZL<span class="oo">OO</span>M</div>
+    <span class="eyebrow">✦ Diagnóstico de proceso Premium ✦</span>
+    <h1 class="title">Cuestionario de Proyecto – AIE Constructora</h1>
+    <p class="greeting">¡Hola, <strong>Diego</strong>! Tomate 5–10 minutos para completar este cuestionario — nos ayuda a complementar lo que conversamos en nuestra reunión y a diseñar una solución de clase mundial para AIE.</p>
+    <div class="tag-row">
+      <span class="tag">🧾 Facturación Premium</span>
+      <span class="tag">✓ Aprobación Inteligente</span>
+      <span class="tag">📊 Analytics Ejecutivos</span>
+      <span class="tag">🪵 Control Total</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <form id="aieForm">
+
+    <!-- CONTACTO -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">👤</div>
+        <div>
+          <div class="section-title">Datos de contacto</div>
+          <div class="section-sub">Solo nos falta tu correo para coordinar los próximos pasos.</div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="q">
+          <label class="q-label">Nombre</label>
+          <input type="text" name="nombre" value="Diego Gutiérrez" readonly>
+        </div>
+        <div class="q">
+          <label class="q-label">WhatsApp</label>
+          <input type="tel" name="whatsapp" value="+506 8851 0692" readonly>
+        </div>
+      </div>
+      <div class="q">
+        <label class="q-label">Correo electrónico<span class="req">*</span></label>
+        <input type="email" name="correo" placeholder="diego@aie.build" required>
+      </div>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🏢</div>
+        <div>
+          <div class="section-title">Sistema actual</div>
+          <div class="section-sub">Qué tienen hoy funcionando y alrededor de qué gira el proceso.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Qué módulos de su sistema de gestión de proyectos tienen activos hoy?</label>
+        <div class="chip-group">
+          <div class="chip"><input type="checkbox" id="m1" name="modulos" value="Financials / Invoicing"><label for="m1">💳 Financials / Invoicing</label></div>
+          <div class="chip"><input type="checkbox" id="m2" name="modulos" value="Project Management"><label for="m2">📋 Project Management</label></div>
+          <div class="chip"><input type="checkbox" id="m3" name="modulos" value="Budget"><label for="m3">📈 Budget</label></div>
+          <div class="chip"><input type="checkbox" id="m4" name="modulos" value="RFIs"><label for="m4">✉ RFIs</label></div>
+        </div>
+        <input style="margin-top:10px" type="text" name="modulos_otro" placeholder="Otro módulo (opcional)">
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Qué otro software usan para pagos, contabilidad o facturación electrónica?</label>
+        <textarea name="otros_sistemas" placeholder="Ej. sistema contable, banca en línea, hoja de cálculo..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🧾</div>
+        <div>
+          <div class="section-title">Proveedores</div>
+          <div class="section-sub">Cómo entra hoy la información de cada proveedor.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Aproximadamente cuántos proveedores activos manejan hoy?</label>
+        <input type="text" name="num_proveedores" placeholder="Ej. 45">
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Cómo les llegan hoy las facturas de los proveedores?</label>
+        <div class="chip-group">
+          <div class="chip"><input type="checkbox" id="f1" name="canal_facturas" value="Correo"><label for="f1">📧 Correo</label></div>
+          <div class="chip"><input type="checkbox" id="f2" name="canal_facturas" value="WhatsApp"><label for="f2">💬 WhatsApp</label></div>
+          <div class="chip"><input type="checkbox" id="f3" name="canal_facturas" value="Sistema PM"><label for="f3">🖥️ Sistema PM</label></div>
+          <div class="chip"><input type="checkbox" id="f4" name="canal_facturas" value="Físico"><label for="f4">📄 Físico</label></div>
+          <div class="chip"><input type="checkbox" id="f5" name="canal_facturas" value="Otro"><label for="f5">⚙️ Otro</label></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Los proveedores tienen hoy algún tipo de acceso al sistema, o todo pasa por ustedes internamente?</label>
+        <textarea name="acceso_proveedores" placeholder="Describe brevemente..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">✓</div>
+        <div>
+          <div class="section-title">Aprobación y pago</div>
+          <div class="section-sub">Quién decide y por dónde sale realmente el dinero.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Quién(es) aprueban una factura antes de pagarse?</label>
+        <textarea name="quien_aprueba" placeholder="Ej. solo Diego, o Diego + contadora, etc."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Dónde se ejecuta el pago real (banco, SINPE, otro)? ¿Ese paso está conectado a algún sistema o es manual?</label>
+        <textarea name="donde_se_paga" placeholder="Describe el proceso de pago..."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Manejan días de crédito y días de pago distintos por proveedor, o un estándar general?</label>
+        <textarea name="dias_credito_pago" placeholder="Describe..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🧮</div>
+        <div>
+          <div class="section-title">Contabilidad</div>
+          <div class="section-sub">Para saber si la información se digita una vez, o dos.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Es el mismo dato el que usan para su sistema de proyectos y para contabilidad, o se digita dos veces?</label>
+        <p class="q-hint">Ejemplo: cuando les llega una factura, ¿la información se registra <span class="az">una sola vez</span> y aparece automáticamente tanto en el sistema de proyecto como en el de su contadora, o alguien tiene que ingresarla por separado en cada sistema — una vez para el proyecto y otra vez para la contabilidad/Hacienda?</p>
+        <textarea name="doble_digitacion" placeholder="Describe el flujo actual..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">📊</div>
+        <div>
+          <div class="section-title">Reportes</div>
+          <div class="section-sub">Lo que necesitás entregarle a tu jefe.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Con qué frecuencia entregas el informe a tu jefe?</label>
+        <div class="chip-group">
+          <div class="chip"><input type="radio" id="r1" name="frecuencia_informe" value="Diario"><label for="r1">⏰ Diario</label></div>
+          <div class="chip"><input type="radio" id="r2" name="frecuencia_informe" value="Semanal"><label for="r2">📅 Semanal</label></div>
+          <div class="chip"><input type="radio" id="r3" name="frecuencia_informe" value="Bajo demanda"><label for="r3">📞 Bajo demanda</label></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🪵</div>
+        <div>
+          <div class="section-title">Materiales</div>
+          <div class="section-sub">Facturado vs. realmente usado en obra.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Necesitan ver lo facturado por material, o lo realmente usado/consumido en obra?</label>
+        <textarea name="facturado_vs_usado" placeholder="Describe qué necesitan ver..."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Existe hoy algún control de bodega o inventario, aunque sea manual?</label>
+        <textarea name="control_bodega" placeholder="Describe si existe algo, aunque sea un Excel..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🎯</div>
+        <div>
+          <div class="section-title">Cierre</div>
+          <div class="section-sub">Lo que más nos ayuda a entender el problema real.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Algo del proceso actual que les haya dado un dolor de cabeza grande en el pasado?</label>
+        <textarea name="dolor_de_cabeza" placeholder="Ej. una factura pagada dos veces, un proveedor sin pagar por meses..."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="q-label">Diego, en tu visión ideal – grafica o describe la solución final a tu problema de la <span style="color:var(--gold); font-weight:800;">A</span> a la <span style="color:var(--gold); font-weight:800;">Z</span>.<span class="req">*</span></label>
+        <p class="q-hint">Sé lo más claro y específico posible.</p>
+        <textarea name="vision_ideal" placeholder="Ej. Una app donde el proveedor sube su factura, yo la apruebo desde el celular, y..."></textarea>
+        <div class="file-row">
+          <label class="file-btn" for="visionFile">📎 Adjuntar imagen, boceto o link</label>
+          <input type="file" id="visionFile" name="vision_archivo" accept="image/*,.pdf">
+          <span class="file-name" id="fileNameLabel"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card submit-card">
+      <button type="submit" class="submit">
+        <span class="spinner"></span>
+        Enviar cuestionario →
+      </button>
+      <span class="submit-note">Tus respuestas llegan directo al equipo premium de Azloom.</span>
+    </div>
+
+  </form>
+</main>
+
+<section id="thankyou">
+  <div class="mark">✓</div>
+  <h2>¡Gracias, Diego!</h2>
+  <p>Recibimos tus respuestas. Las vamos a revisar con atención al detalle y llegamos a la próxima conversación con una propuesta de clase mundial para AIE.</p>
+</section>
+
+<footer>
+  Azloom trata la información compartida en este formulario de forma confidencial y la utiliza únicamente para el diseño de la solución propuesta para AIE. No se comparte con terceros.<br><br>
+  <a href="https://www.azloom.tech" target="_blank" rel="noopener noreferrer">www.azloom.tech</a> ✦ Premium Solutions
+</footer>
+
+<script>
+  // ambient starfield with gold accents
+  const starsContainer = document.getElementById('stars');
+  const starCount = 35;
+  for(let i=0; i<starCount; i++){
+    const s = document.createElement('span');
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = Math.random()*100 + '%';
+    s.style.width = (Math.random() * 3 + 1) + 'px';
+    s.style.height = s.style.width;
+    s.style.animationDelay = (Math.random()*8) + 's';
+    starsContainer.appendChild(s);
+  }
+
+  // scroll progress
+  const progressBar = document.getElementById('progress-bar');
+  function updateProgress(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, (scrollTop/docHeight)*100) : 0;
+    progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress);
+  updateProgress();
+
+  // file name display
+  const fileInput = document.getElementById('visionFile');
+  const fileNameLabel = document.getElementById('fileNameLabel');
+  fileInput.addEventListener('change', () => {
+    fileNameLabel.textContent = fileInput.files.length ? fileInput.files[0].name : '';
+  });
+
+  // submit handling
+  const WEBHOOK_URL = "";
+
+  const form = document.getElementById('aieForm');
+  const main = document.querySelector('main');
+  const heroEl = document.querySelector('header.hero');
+  const thankyou = document.getElementById('thankyou');
+  const submitBtn = form.querySelector('button.submit');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+
+    const formData = new FormData(form);
+    const payload = {};
+    for (const [key, value] of formData.entries()) {
+      if (payload[key]) {
+        payload[key] = Array.isArray(payload[key]) ? [...payload[key], value] : [payload[key], value];
+      } else {
+        payload[key] = value;
+      }
+    }
+    payload.enviado_en = new Date().toISOString();
+    payload.origen = "cuestionario-aie-constructora-premium";
+
+    console.log("Respuestas del cuestionario:", payload);
+
+    if (WEBHOOK_URL) {
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error("No se pudo enviar al webhook:", err);
+      }
+    }
+
+    setTimeout(() => {
+      main.style.display = 'none';
+      heroEl.style.display = 'none';
+      thankyou.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 800);
+  });
+</script>
+
+</body>
+</html>

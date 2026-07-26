@@ -1,0 +1,134 @@
+{
+  "name": "AIE - Diagnóstico Jotform -> Resumen IA -> Email",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aie-diagnostico-facturacion",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-jotform",
+      "name": "Webhook Jotform",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        260,
+        300
+      ],
+      "webhookId": "aie-diagnostico-facturacion"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Jotform manda los datos como multipart/form-data.\n// El campo \"pretty\" trae todas las preguntas y respuestas ya formateadas y legibles.\nconst body = $input.first().json.body || {};\n\nlet qa = body.pretty || 'No se recibieron respuestas legibles (revisar payload).';\n\n// Limpieza básica: separar por comas de nivel superior no es 100% seguro,\n// así que dejamos el texto de \"pretty\" tal cual lo entrega Jotform.\nqa = decodeURIComponent(qa.replace(/\\+/g, ' '));\n\nreturn [\n  {\n    json: {\n      qa_texto: qa,\n      submissionID: body.submissionID || '',\n      formID: body.formID || '',\n      formTitle: body.formTitle || 'Diagnóstico de Facturación y Proveedores — AIE Constructora'\n    }\n  }\n];"
+      },
+      "id": "code-parse",
+      "name": "Preparar Respuestas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "text",
+        "operation": "message",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Sos un analista que resume diagnósticos de procesos de facturación y proveedores para una constructora que usa Procore. Con base en las respuestas del formulario, generá un RESUMEN EJECUTIVO en español, claro y accionable, con esta estructura:\n\n1. Situación actual (2-3 líneas)\n2. Puntos clave detectados (bullets)\n3. Riesgos o cuellos de botella identificados (bullets)\n4. Recomendaciones / próximos pasos sugeridos (bullets)\n\nSé concreto, no repitas literalmente las respuestas, interpretalas."
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.qa_texto }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "openai-summary",
+      "name": "OpenAI Resumen",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        700,
+        300
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "hello@azloom.tech",
+        "subject": "=Nuevo diagnóstico recibido — {{ $('Preparar Respuestas').item.json.formTitle }}",
+        "emailType": "html",
+        "message": "=<h2>Nuevo diagnóstico completado</h2>\n<p><strong>Formulario:</strong> {{ $('Preparar Respuestas').item.json.formTitle }}</p>\n<p><strong>ID de envío:</strong> {{ $('Preparar Respuestas').item.json.submissionID }}</p>\n\n<h3>📋 Resumen ejecutivo (IA)</h3>\n<p>{{ $json.message.content.replace(/\\n/g, '<br>') }}</p>\n\n<hr>\n\n<h3>🗒️ Preguntas y respuestas completas</h3>\n<p>{{ $('Preparar Respuestas').item.json.qa_texto.replace(/,\\s*/g, '<br>') }}</p>",
+        "options": {}
+      },
+      "id": "gmail-send",
+      "name": "Enviar Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        920,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Jotform": {
+      "main": [
+        [
+          {
+            "node": "Preparar Respuestas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Respuestas": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Resumen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Resumen": {
+      "main": [
+        [
+          {
+            "node": "Enviar Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

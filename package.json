@@ -1,0 +1,41 @@
+{
+  "name": "aie-cuestionario-premium",
+  "version": "1.0.0",
+  "description": "Cuestionario premium para AIE Constructora con integración n8n + Claude AI + resumen automático con IA",
+  "keywords": [
+    "formulario",
+    "cuestionario",
+    "constructor",
+    "claude-ai",
+    "n8n",
+    "vercel",
+    "serverless",
+    "automation"
+  ],
+  "main": "api/submit-form.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "dev:vercel": "vercel dev",
+    "build": "echo 'No build step needed'",
+    "test": "echo 'Run: npm run dev to test locally'",
+    "start": "node dev-server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0"
+  },
+  "devDependencies": {},
+  "author": "Azloom",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azloom/aie-cuestionario-premium"
+  },
+  "bugs": {
+    "url": "https://github.com/azloom/aie-cuestionario-premium/issues"
+  },
+  "homepage": "https://github.com/azloom/aie-cuestionario-premium#readme"
+}

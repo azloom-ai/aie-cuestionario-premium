@@ -1,0 +1,137 @@
+{
+  "active": false,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Cliente",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gmail - Equipo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-01-15T10:00:00.000Z",
+  "id": "aie-cuestionario-premium",
+  "meta": {
+    "instanceId": "local"
+  },
+  "name": "AIE Cuestionario - Respuestas y Resumen IA",
+  "nodes": [
+    {
+      "displayName": "Webhook",
+      "id": "webhook_node",
+      "inputConnections": {},
+      "name": "Webhook",
+      "parameters": {
+        "httpMethod": "POST",
+        "options": {},
+        "path": "aie-cuestionario"
+      },
+      "position": [
+        250,
+        300
+      ],
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "webhookId": "aie-cuestionario"
+    },
+    {
+      "displayName": "Gmail - Cliente",
+      "id": "gmail_cliente",
+      "inputConnections": {
+        "main": [
+          [
+            {
+              "node": "Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "name": "Gmail - Cliente",
+      "parameters": {
+        "authentication": "oAuth2",
+        "bccList": "",
+        "ccList": "",
+        "attachmentPrefix": "",
+        "options": {
+          "replyTo": "hello@azloom.tech",
+          "inReplyTo": ""
+        },
+        "emailFormat": "html",
+        "email": "={{ $json.correo }}",
+        "subject": "✓ Recibimos tu cuestionario - AIE Constructora",
+        "htmlBody": "=<h2 style=\"color: #333; font-family: Arial, sans-serif;\">Hola {{ $json.nombre }},</h2>\n\n<p style=\"color: #666; font-family: Arial, sans-serif; line-height: 1.6;\">Gracias por completar el cuestionario. Aquí está el análisis automático generado por nuestro sistema de IA:</p>\n\n<hr style=\"border: none; border-top: 2px solid #ddd; margin: 30px 0;\">\n\n<h3 style=\"color: #667eea; font-family: Arial, sans-serif; margin-top: 30px;\">📊 Resumen Ejecutivo (Generado por IA)</h3>\n\n<pre style=\"background: #f5f5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea; color: #333; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word;\">{{ $json.resumen_ia }}</pre>\n\n<hr style=\"border: none; border-top: 2px solid #ddd; margin: 30px 0;\">\n\n<h3 style=\"color: #667eea; font-family: Arial, sans-serif; margin-top: 30px;\">📋 Tus Respuestas Completas</h3>\n\n<pre style=\"background: #f5f5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea; color: #333; font-family: 'Courier New', monospace; font-size: 11px; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; max-height: 600px; overflow: auto;\">{{ $json.respuestas }}</pre>\n\n<hr style=\"border: none; border-top: 2px solid #ddd; margin: 30px 0;\">\n\n<h3 style=\"color: #333; font-family: Arial, sans-serif;\">Próximos Pasos:</h3>\n\n<ul style=\"color: #666; font-family: Arial, sans-serif; line-height: 1.8;\">\n  <li>Nuestro equipo está revisando tus respuestas con atención</li>\n  <li>Te contactaremos en los próximos 2-3 días laborales</li>\n  <li>Llevaremos una propuesta concreta a la siguiente reunión</li>\n</ul>\n\n<p style=\"color: #666; font-family: Arial, sans-serif; margin-top: 20px;\"><strong>¿Preguntas?</strong> Contáctanos: <a href=\"mailto:hello@azloom.tech\" style=\"color: #667eea; text-decoration: none;\">hello@azloom.tech</a></p>\n\n<hr style=\"border: none; border-top: 1px solid #eee; margin: 30px 0;\">\n\n<p style=\"color: #999; font-family: Arial, sans-serif; font-size: 12px; margin-top: 30px;\">— Equipo Azloom<br>Soluciones de Tecnología para Construcción</p>"
+      },
+      "position": [
+        550,
+        150
+      ],
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "credentials": {
+        "googleGmailOAuth2": "gmail_credential"
+      }
+    },
+    {
+      "displayName": "Gmail - Equipo",
+      "id": "gmail_equipo",
+      "inputConnections": {
+        "main": [
+          [
+            {
+              "node": "Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "name": "Gmail - Equipo",
+      "parameters": {
+        "authentication": "oAuth2",
+        "bccList": "",
+        "ccList": "",
+        "attachmentPrefix": "",
+        "options": {
+          "replyTo": "hello@azloom.tech"
+        },
+        "emailFormat": "html",
+        "email": "=hello@azloom.tech",
+        "subject": "=🔔 NUEVO: Respuesta de Cuestionario AIE - {{ $json.nombre }}",
+        "htmlBody": "=<h2 style=\"color: #333; font-family: Arial, sans-serif;\">Nueva respuesta del cuestionario AIE</h2>\n\n<p style=\"color: #666; font-family: Arial, sans-serif; line-height: 1.6; margin: 10px 0;\"><strong>Cliente:</strong> {{ $json.nombre }}</p>\n<p style=\"color: #666; font-family: Arial, sans-serif; line-height: 1.6; margin: 10px 0;\"><strong>Email:</strong> {{ $json.correo }}</p>\n<p style=\"color: #666; font-family: Arial, sans-serif; line-height: 1.6; margin: 10px 0;\"><strong>WhatsApp:</strong> {{ $json.whatsapp }}</p>\n<p style=\"color: #666; font-family: Arial, sans-serif; line-height: 1.6; margin: 10px 0;\"><strong>Timestamp:</strong> {{ $json.timestamp }}</p>\n\n<hr style=\"border: none; border-top: 2px solid #ddd; margin: 20px 0;\">\n\n<h3 style=\"color: #667eea; font-family: Arial, sans-serif;\">📊 Resumen IA</h3>\n\n<pre style=\"background: #f5f5f5; padding: 15px; border-radius: 8px; color: #333; font-family: 'Courier New', monospace; font-size: 11px; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word;\">{{ $json.resumen_ia }}</pre>\n\n<hr style=\"border: none; border-top: 2px solid #ddd; margin: 20px 0;\">\n\n<h3 style=\"color: #667eea; font-family: Arial, sans-serif;\">📋 Respuestas Completas</h3>\n\n<pre style=\"background: #f5f5f5; padding: 15px; border-radius: 8px; color: #333; font-family: 'Courier New', monospace; font-size: 10px; line-height: 1.4; white-space: pre-wrap; word-wrap: break-word; max-height: 500px; overflow: auto;\">{{ $json.respuestas }}</pre>\n\n<hr style=\"border: none; border-top: 1px solid #eee; margin: 20px 0;\">\n\n<p style=\"color: #999; font-family: Arial, sans-serif; font-size: 12px;\">Recibido en: {{ $json.timestamp }}</p>"
+      },
+      "position": [
+        550,
+        450
+      ],
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "credentials": {
+        "googleGmailOAuth2": "gmail_credential"
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    "aie",
+    "cuestionario",
+    "claude",
+    "constructor"
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-15T10:00:00.000Z"
+}

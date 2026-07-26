@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuestionario de Proyecto — AIE Constructora | Azloom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --carbon: #08080D;
+    --carbon-2: #121219;
+    --page-bg: #FFFFFF;
+    --card-bg: #FFFFFF;
+    --purple: #7C6CF0;
+    --purple-bright: #6E5AF0;
+    --purple-tint: #F3F1FE;
+    --purple-dim: #C9C1FA;
+    --ink: #14141C;
+    --ink-dim: #6B697C;
+    --ink-faint: #A6A4B5;
+    --border: #E4E1F5;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--page-bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  h1,h2,h3{
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .mono{ font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em; }
+
+  /* progress bar */
+  #progress-wrap{
+    position: sticky;
+    top:0; left:0; right:0;
+    height: 4px;
+    background: var(--border);
+    z-index: 100;
+  }
+  #progress-bar{
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--purple-dim), var(--purple-bright));
+    transition: width .15s ease-out;
+  }
+
+  /* HERO — carbon black */
+  header.hero{
+    position: relative;
+    background: var(--carbon);
+    color: #fff;
+    overflow: hidden;
+  }
+  header.hero .stars span{
+    position:absolute;
+    width:2px; height:2px;
+    border-radius:50%;
+    background: var(--purple-dim);
+    opacity:.4;
+    animation: twinkle 6s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.7;} }
+
+  .hero-inner{
+    position:relative;
+    z-index:1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 44px;
+  }
+
+  .logo-mark{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    margin-bottom: 40px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    color: #C6C3DA;
+  }
+  .logo-mark .oo{ color: var(--purple-dim); }
+  .logo-mark::before{
+    content:"";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--purple-dim);
+    box-shadow: 0 0 8px var(--purple-dim);
+  }
+
+  .eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--purple-dim);
+    margin-bottom: 16px;
+    display:block;
+  }
+
+  h1.title{
+    font-size: clamp(28px, 4.6vw, 42px);
+    font-weight: 600;
+    line-height: 1.15;
+    color: #fff;
+    max-width: 620px;
+  }
+
+  .greeting{
+    margin-top: 22px;
+    font-size: 16.5px;
+    color: #B9B6CC;
+    max-width: 560px;
+  }
+  .greeting strong{ color: #fff; font-weight: 600; }
+
+  .tag-row{
+    margin-top: 28px;
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .tag{
+    display:inline-flex;
+    align-items:center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(124,108,240,0.16);
+    border: 1px solid rgba(124,108,240,0.35);
+    font-size: 13px;
+    color: #E4E1F5;
+  }
+
+  main{
+    position: relative;
+    max-width: 760px;
+    margin: -28px auto 0;
+    padding: 0 24px 100px;
+  }
+
+  form{ display:flex; flex-direction:column; gap: 24px; }
+
+  .card{
+    background: var(--card-bg);
+    border: 1px solid var(--purple);
+    border-radius: 16px;
+    padding: 32px 30px;
+    box-shadow: 0 12px 30px rgba(124,108,240,0.08);
+  }
+
+  .section-head{
+    display:flex;
+    align-items:flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .icon-badge{
+    flex: none;
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    background: var(--purple-tint);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 21px;
+  }
+  .section-title{ font-size: 20px; font-weight: 600; color: var(--ink); }
+  .section-sub{ color: var(--ink-dim); font-size: 13.5px; margin-top: 3px; }
+
+  .q{ margin-bottom: 26px; }
+  .q:last-child{ margin-bottom: 0; }
+  .q-label{
+    display:block;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .q-label .req{ color: var(--purple-bright); margin-left: 2px; }
+  .q-hint{
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .q-hint .az{ color: var(--purple-bright); font-weight: 700; }
+
+  input[type="text"], input[type="number"], input[type="email"], input[type="tel"], textarea{
+    width: 100%;
+    background: #FBFAFF;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    border-radius: 9px;
+    padding: 12px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  textarea{ min-height: 92px; resize: vertical; }
+  input::placeholder, textarea::placeholder{ color: var(--ink-faint); }
+  input:focus, textarea:focus{
+    outline: none;
+    border-color: var(--purple);
+    background: #fff;
+  }
+  input:focus-visible, textarea:focus-visible, .chip label:focus-visible, .file-btn:focus-visible, button:focus-visible{
+    outline: 2px solid var(--purple);
+    outline-offset: 2px;
+  }
+  input[readonly]{ background: var(--purple-tint); color: var(--ink-dim); }
+
+  .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 560px){ .two-col{ grid-template-columns: 1fr; } }
+
+  .chip-group{ display:flex; flex-wrap: wrap; gap: 9px; }
+  .chip{ position: relative; }
+  .chip input{ position:absolute; opacity:0; pointer-events:none; }
+  .chip label{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    cursor: pointer;
+    padding: 9px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: #FBFAFF;
+    color: var(--ink-dim);
+    font-size: 13.5px;
+    transition: all .15s ease;
+    user-select: none;
+  }
+  .chip input:checked + label{
+    background: var(--purple-tint);
+    border-color: var(--purple);
+    color: var(--purple-bright);
+    font-weight: 500;
+  }
+  .chip label:hover{ border-color: var(--purple-dim); color: var(--ink); }
+
+  .file-row{ display:flex; align-items:center; gap: 12px; margin-top: 6px; }
+  .file-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 10px 16px; border-radius: 9px;
+    border: 1px dashed var(--purple-dim);
+    background: var(--purple-tint);
+    color: var(--purple-bright);
+    font-size: 13.5px; cursor: pointer;
+  }
+  .file-btn:hover{ border-color: var(--purple); }
+  .file-name{ font-size: 12.5px; color: var(--ink-faint); font-family: 'JetBrains Mono', monospace; }
+  input[type="file"]{ display:none; }
+
+  .submit-card{
+    display:flex; flex-direction:column; align-items:flex-start; gap: 14px;
+    border-style: solid;
+  }
+  button.submit{
+    appearance:none; border:none; cursor:pointer;
+    background: var(--purple-bright);
+    color: #fff;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 15.5px;
+    padding: 15px 30px;
+    border-radius: 10px;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  button.submit:hover{
+    background: #5A46E8;
+    box-shadow: 0 8px 24px rgba(124,108,240,0.35);
+    transform: translateY(-1px);
+  }
+  button.submit:disabled{ opacity:.5; cursor:not-allowed; transform:none; box-shadow:none; }
+  .submit-note{ font-size: 12.5px; color: var(--ink-faint); }
+
+  #thankyou{
+    display:none;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 90px 24px;
+    text-align: center;
+  }
+  #thankyou .mark{
+    width: 52px; height:52px; margin: 0 auto 24px;
+    border-radius: 50%; border: 1px solid var(--purple);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--purple-bright); font-size: 22px;
+    background: var(--purple-tint);
+  }
+  #thankyou h2{ font-size: 24px; margin-bottom: 12px; color: var(--ink); }
+  #thankyou p{ color: var(--ink-dim); font-size: 15px; }
+
+  footer{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 30px 24px 50px;
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    line-height: 1.7;
+  }
+  footer a{ color: var(--purple-bright); text-decoration:none; }
+  footer a:hover{ text-decoration:underline; }
+
+  @media (max-width: 560px){
+    .hero-inner{ padding: 44px 20px 36px; }
+    .card{ padding: 26px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    header.hero .stars span{ animation: none; opacity:.3; }
+    button.submit:hover{ transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+
+<header class="hero">
+  <div class="stars" id="stars"></div>
+  <div class="hero-inner">
+    <div class="logo-mark">AZL<span class="oo">OO</span>M</div>
+    <span class="eyebrow">Diagnóstico de proceso · Proveedores &amp; Facturación</span>
+    <h1 class="title">Cuestionario de Proyecto — AIE Constructora</h1>
+    <p class="greeting">¡Hola, <strong>Diego</strong>! Tomate 5–10 minutos para completar este cuestionario — nos ayuda a complementar lo que conversamos en nuestra reunión y a diseñar una solución precisa para AIE.</p>
+    <div class="tag-row">
+      <span class="tag">🧾 Facturación de proveedores</span>
+      <span class="tag">✅ Aprobación y pago</span>
+      <span class="tag">📊 Reportes ejecutivos</span>
+      <span class="tag">🪵 Control de materiales</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <form id="aieForm">
+
+    <!-- CONTACTO -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">👤</div>
+        <div>
+          <div class="section-title">Datos de contacto</div>
+          <div class="section-sub">Solo nos falta tu correo para coordinar los próximos pasos.</div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="q">
+          <label class="q-label">Nombre</label>
+          <input type="text" name="nombre" value="Diego Gutiérrez" readonly>
+        </div>
+        <div class="q">
+          <label class="q-label">WhatsApp</label>
+          <input type="tel" name="whatsapp" value="+506 8851 0692" readonly>
+        </div>
+      </div>
+      <div class="q">
+        <label class="q-label">Correo electrónico<span class="req">*</span></label>
+        <input type="email" name="correo" placeholder="diego@aie.build" required>
+      </div>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🏗️</div>
+        <div>
+          <div class="section-title">Sistema actual</div>
+          <div class="section-sub">Qué tienen hoy funcionando y alrededor de qué gira el proceso.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Qué módulos de su sistema de gestión de proyectos tienen activos hoy?</label>
+        <div class="chip-group">
+          <div class="chip"><input type="checkbox" id="m1" name="modulos" value="Financials / Invoicing"><label for="m1">💳 Financials / Invoicing</label></div>
+          <div class="chip"><input type="checkbox" id="m2" name="modulos" value="Project Management"><label for="m2">📋 Project Management</label></div>
+          <div class="chip"><input type="checkbox" id="m3" name="modulos" value="Budget"><label for="m3">📐 Budget</label></div>
+          <div class="chip"><input type="checkbox" id="m4" name="modulos" value="RFIs"><label for="m4">❓ RFIs</label></div>
+        </div>
+        <input style="margin-top:10px" type="text" name="modulos_otro" placeholder="Otro módulo (opcional)">
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Qué otro software usan para pagos, contabilidad o facturación electrónica?</label>
+        <textarea name="otros_sistemas" placeholder="Ej. sistema contable, banca en línea, hoja de cálculo..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🧾</div>
+        <div>
+          <div class="section-title">Proveedores</div>
+          <div class="section-sub">Cómo entra hoy la información de cada proveedor.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Aproximadamente cuántos proveedores activos manejan hoy?</label>
+        <input type="text" name="num_proveedores" placeholder="Ej. 45">
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Cómo les llegan hoy las facturas de los proveedores?</label>
+        <div class="chip-group">
+          <div class="chip"><input type="checkbox" id="f1" name="canal_facturas" value="Correo"><label for="f1">📧 Correo</label></div>
+          <div class="chip"><input type="checkbox" id="f2" name="canal_facturas" value="WhatsApp"><label for="f2">💬 WhatsApp</label></div>
+          <div class="chip"><input type="checkbox" id="f3" name="canal_facturas" value="Sistema PM"><label for="f3">🖥️ Sistema PM</label></div>
+          <div class="chip"><input type="checkbox" id="f4" name="canal_facturas" value="Físico"><label for="f4">📄 Físico</label></div>
+          <div class="chip"><input type="checkbox" id="f5" name="canal_facturas" value="Otro"><label for="f5">✏️ Otro</label></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Los proveedores tienen hoy algún tipo de acceso al sistema, o todo pasa por ustedes internamente?</label>
+        <textarea name="acceso_proveedores" placeholder="Describe brevemente..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">✅</div>
+        <div>
+          <div class="section-title">Aprobación y pago</div>
+          <div class="section-sub">Quién decide y por dónde sale realmente el dinero.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Quién(es) aprueban una factura antes de pagarse?</label>
+        <textarea name="quien_aprueba" placeholder="Ej. solo Diego, o Diego + contadora, etc."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Dónde se ejecuta el pago real (banco, SINPE, otro)? ¿Ese paso está conectado a algún sistema o es manual?</label>
+        <textarea name="donde_se_paga" placeholder="Describe el proceso de pago..."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Manejan días de crédito y días de pago distintos por proveedor, o un estándar general?</label>
+        <textarea name="dias_credito_pago" placeholder="Describe..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🧮</div>
+        <div>
+          <div class="section-title">Contabilidad</div>
+          <div class="section-sub">Para saber si la información se digita una vez, o dos.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Es el mismo dato el que usan para su sistema de proyectos y para contabilidad, o se digita dos veces?</label>
+        <p class="q-hint">Ejemplo: cuando les llega una factura, ¿la información se registra <span class="az">una sola vez</span> y aparece automáticamente tanto en el sistema de proyecto como en el de su contadora, o alguien tiene que ingresarla por separado en cada sistema — una vez para el proyecto y otra vez para la contabilidad/Hacienda?</p>
+        <textarea name="doble_digitacion" placeholder="Describe el flujo actual..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">📊</div>
+        <div>
+          <div class="section-title">Reportes</div>
+          <div class="section-sub">Lo que necesitás entregarle a tu jefe.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Con qué frecuencia entregás el informe a tu jefe?</label>
+        <div class="chip-group">
+          <div class="chip"><input type="radio" id="r1" name="frecuencia_informe" value="Diario"><label for="r1">☀️ Diario</label></div>
+          <div class="chip"><input type="radio" id="r2" name="frecuencia_informe" value="Semanal"><label for="r2">🗓️ Semanal</label></div>
+          <div class="chip"><input type="radio" id="r3" name="frecuencia_informe" value="Bajo demanda"><label for="r3">🔔 Bajo demanda</label></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🪵</div>
+        <div>
+          <div class="section-title">Materiales</div>
+          <div class="section-sub">Facturado vs. realmente usado en obra.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Necesitan ver lo facturado por material, o lo realmente usado/consumido en obra?</label>
+        <textarea name="facturado_vs_usado" placeholder="Describe qué necesitan ver..."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Existe hoy algún control de bodega o inventario, aunque sea manual?</label>
+        <textarea name="control_bodega" placeholder="Describe si existe algo, aunque sea un Excel..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="card">
+      <div class="section-head">
+        <div class="icon-badge">🎯</div>
+        <div>
+          <div class="section-title">Cierre</div>
+          <div class="section-sub">Lo que más nos ayuda a entender el problema real.</div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label">¿Algo del proceso actual que les haya dado un dolor de cabeza grande en el pasado?</label>
+        <textarea name="dolor_de_cabeza" placeholder="Ej. una factura pagada dos veces, un proveedor sin pagar por meses..."></textarea>
+      </div>
+
+      <div class="q">
+        <label class="q-label">Diego, en tu visión ideal — grafica o describe la solución final a tu problema de la <span style="color:var(--purple-bright); font-weight:700;">A</span> a la <span style="color:var(--purple-bright); font-weight:700;">Z</span>.<span class="req">*</span></label>
+        <p class="q-hint">Sé lo más claro y específico posible.</p>
+        <textarea name="vision_ideal" placeholder="Ej. Una app donde el proveedor sube su factura, yo la apruebo desde el celular, y..."></textarea>
+        <div class="file-row">
+          <label class="file-btn" for="visionFile">📎 Adjuntar imagen, boceto o link</label>
+          <input type="file" id="visionFile" name="vision_archivo" accept="image/*,.pdf">
+          <span class="file-name" id="fileNameLabel"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card submit-card">
+      <button type="submit" class="submit">Enviar cuestionario →</button>
+      <span class="submit-note">Tus respuestas llegan directo al equipo de Azloom.</span>
+    </div>
+
+  </form>
+</main>
+
+<section id="thankyou">
+  <div class="mark">✓</div>
+  <h2>¡Gracias, Diego!</h2>
+  <p>Recibimos tus respuestas. Las vamos a revisar y llegamos a la próxima conversación con una propuesta concreta para AIE.</p>
+</section>
+
+<footer>
+  Azloom trata la información compartida en este formulario de forma confidencial y la utiliza únicamente para el diseño de la solución propuesta para AIE. No se comparte con terceros.<br><br>
+  <a href="https://www.azloo.tech" target="_blank" rel="noopener noreferrer">www.azloo.tech</a>
+</footer>
+
+<script>
+  // ambient starfield inside the dark header
+  const starsContainer = document.getElementById('stars');
+  const starCount = 22;
+  for(let i=0;i<starCount;i++){
+    const s = document.createElement('span');
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = Math.random()*100 + '%';
+    s.style.animationDelay = (Math.random()*6) + 's';
+    starsContainer.appendChild(s);
+  }
+
+  // scroll progress
+  const progressBar = document.getElementById('progress-bar');
+  function updateProgress(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? Math.min(100, (scrollTop/docHeight)*100) : 0;
+    progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress);
+  updateProgress();
+
+  // file name display
+  const fileInput = document.getElementById('visionFile');
+  const fileNameLabel = document.getElementById('fileNameLabel');
+  fileInput.addEventListener('change', () => {
+    fileNameLabel.textContent = fileInput.files.length ? fileInput.files[0].name : '';
+  });
+
+  // submit handling
+  // Reemplazar WEBHOOK_URL con el webhook de n8n cuando esté listo.
+  const WEBHOOK_URL = ""; // ej: "https://n8n.azloom.tech/webhook/aie-cuestionario"
+
+  const form = document.getElementById('aieForm');
+  const main = document.querySelector('main');
+  const heroEl = document.querySelector('header.hero');
+  const thankyou = document.getElementById('thankyou');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button.submit');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const formData = new FormData(form);
+    const payload = {};
+    for (const [key, value] of formData.entries()) {
+      if (payload[key]) {
+        payload[key] = Array.isArray(payload[key]) ? [...payload[key], value] : [payload[key], value];
+      } else {
+        payload[key] = value;
+      }
+    }
+    payload.enviado_en = new Date().toISOString();
+    payload.origen = "cuestionario-aie-constructora";
+
+    console.log("Respuestas del cuestionario:", payload);
+
+    if (WEBHOOK_URL) {
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error("No se pudo enviar al webhook:", err);
+      }
+    }
+
+    main.style.display = 'none';
+    heroEl.style.display = 'none';
+    thankyou.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+{
+  "name": "AIE Cuestionario - Respuestas + Resumen",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aie-cuestionario",
+        "options": {}
+      },
+      "id": "webhook",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "email": "={{ $json.correo }}",
+        "subject": "✓ Recibimos tu cuestionario - AIE Constructora",
+        "htmlBody": "=<h2>Hola {{ $json.nombre }},</h2>\n\n<p>Gracias por completar el cuestionario. Aquí está el resumen automático generado por nuestro sistema de IA:</p>\n\n<hr style=\"border:none; border-top:1px solid #ddd; margin: 20px 0;\">\n\n<h3>📋 Resumen Ejecutivo</h3>\n<pre style=\"background:#f5f5f5; padding:15px; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.6;\">{{ $json.resumen_ia }}</pre>\n\n<hr style=\"border:none; border-top:1px solid #ddd; margin: 20px 0;\">\n\n<h3>📝 Tus Respuestas Completas</h3>\n<pre style=\"background:#f5f5f5; padding:15px; border-radius:8px; font-family:monospace; font-size:11px; line-height:1.5; max-height:500px; overflow:auto;\">{{ $json.respuestas }}</pre>\n\n<hr style=\"border:none; border-top:1px solid #ddd; margin: 20px 0;\">\n\n<p><strong>Próximos pasos:</strong></p>\n<ul>\n<li>Nuestro equipo está revisando tus respuestas</li>\n<li>Te contactaremos en los próximos 2-3 días laborales</li>\n<li>Llevaremos una propuesta concreta al siguiente encuentro</li>\n</ul>\n\n<p>¿Preguntas? Contáctanos: <a href=\"mailto:hello@azloom.tech\">hello@azloom.tech</a></p>\n\n<p style=\"color:#888; font-size:12px; margin-top:30px;\">— Equipo Azloom<br>Soluciones de tecnología para construcción</p>",
+        "options": {}
+      },
+      "id": "gmail_send",
+      "name": "Gmail - Enviar a Cliente",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [500, 150],
+      "credentials": {
+        "googleGmailOAuth2": "gmail_account"
+      }
+    },
+    {
+      "parameters": {
+        "email": "=hello@azloom.tech",
+        "subject": "=🔔 NUEVO: Respuesta de Cuestionario AIE - {{ $json.nombre }}",
+        "htmlBody": "=<h2>Nueva respuesta del cuestionario AIE</h2>\n\n<p><strong>Cliente:</strong> {{ $json.nombre }}</p>\n<p><strong>Email:</strong> {{ $json.correo }}</p>\n<p><strong>WhatsApp:</strong> {{ $json.whatsapp }}</p>\n<p><strong>Timestamp:</strong> {{ $json.timestamp }}</p>\n\n<hr>\n\n<h3>📊 Resumen IA</h3>\n<pre style=\"background:#f5f5f5; padding:15px; border-radius:8px;\">{{ $json.resumen_ia }}</pre>\n\n<hr>\n\n<h3>📋 Respuestas Completas</h3>\n<pre style=\"background:#f5f5f5; padding:15px; border-radius:8px; font-size:11px; max-height:400px; overflow:auto;\">{{ $json.respuestas }}</pre>",
+        "options": {}
+      },
+      "id": "gmail_team",
+      "name": "Gmail - Notificar Equipo",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [500, 450],
+      "credentials": {
+        "googleGmailOAuth2": "gmail_account"
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "docId": "={{ $json.datos_completos }}",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "=timestamp",
+            "nombre": "=nombre",
+            "correo": "=correo",
+            "resumen": "=resumen_ia",
+            "data_json": "=JSON.stringify($json)"
+          }
+        },
+        "options": {}
+      },
+      "id": "google_sheets",
+      "name": "Google Sheets - Guardar",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [750, 300],
+      "credentials": {
+        "googleSheetsOAuth2": "google_sheets_account"
+      }
+    }
+  ],
+  "connections": {
+    "webhook": {
+      "main": [
+        [
+          {
+            "node": "gmail_send",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "gmail_team",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "google_sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

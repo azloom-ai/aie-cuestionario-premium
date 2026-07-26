@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Inicio Rápido - AIE Cuestionario Premium</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 50px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+        .steps {
+            display: grid;
+            gap: 30px;
+        }
+        .step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 25px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        .step:hover {
+            background: #f0f1ff;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+        }
+        .step-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+        }
+        .step-content h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .step-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .code-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .checklist {
+            list-style: none;
+            margin: 15px 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #666;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        .button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        .success {
+            background: #10b981;
+        }
+        .success:hover {
+            background: #059669;
+        }
+        .warning {
+            background: #f59e0b;
+        }
+        .warning:hover {
+            background: #d97706;
+        }
+        .tip {
+            background: #dbeafe;
+            border-left: 4px solid #0284c7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #0c4a6e;
+        }
+        .time-badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+            color: #888;
+            font-size: 14px;
+        }
+        .grid-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .link-button {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid #667eea;
+        }
+        .link-button:hover {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Inicio Rápido</h1>
+            <p class="subtitle">Cuestionario AIE Premium con Claude AI + n8n</p>
+        </header>
+
+        <div class="steps">
+            <!-- PASO 1 -->
+            <div class="step">
+                <div class="step-number">1️⃣</div>
+                <div class="step-content">
+                    <h2>Obtener API Keys <span class="time-badge">10 min</span></h2>
+                    <p>Necesitas 3 credenciales para que todo funcione:</p>
+
+                    <h3 style="color: #333; margin-top: 15px; margin-bottom: 8px;">🔑 API Key de Claude</h3>
+                    <ul class="checklist">
+                        <li>Ve a <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></li>
+                        <li>Crea o inicia sesión</li>
+                        <li>Click en "API Keys"</li>
+                        <li>Click "Create Key"</li>
+                        <li>Copia: <code>sk-ant-...</code></li>
+                    </ul>
+
+                    <h3 style="color: #333; margin-top: 15px; margin-bottom: 8px;">🔗 Webhook de n8n</h3>
+                    <ul class="checklist">
+                        <li>Entra a tu n8n</li>
+                        <li>Crea nuevo workflow</li>
+                        <li>Agrega nodo "Webhook" (POST)</li>
+                        <li>Copia la URL completa</li>
+                    </ul>
+
+                    <h3 style="color: #333; margin-top: 15px; margin-bottom: 8px;">📧 Email de Contacto</h3>
+                    <ul class="checklist">
+                        <li>Tu email: hello@azloom.tech</li>
+                    </ul>
+
+                    <div class="tip">
+                        💡 <strong>Tip:</strong> Guarda estas 3 credenciales en un lugar seguro. Las necesitarás después.
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 2 -->
+            <div class="step">
+                <div class="step-number">2️⃣</div>
+                <div class="step-content">
+                    <h2>Crear Cuenta en Vercel <span class="time-badge">5 min</span></h2>
+                    <p>Vercel es donde correrá tu formulario (¡es gratuito!):</p>
+
+                    <ul class="checklist">
+                        <li>Ve a <a href="https://vercel.com" target="_blank">vercel.com</a></li>
+                        <li>Click "Sign Up"</li>
+                        <li>Elige GitHub, Google o Email</li>
+                        <li>Completa el registro</li>
+                        <li>Verifica tu email</li>
+                    </ul>
+
+                    <a href="https://vercel.com/signup" target="_blank" class="button success">
+                        ✓ Crear Cuenta en Vercel
+                    </a>
+                </div>
+            </div>
+
+            <!-- PASO 3 -->
+            <div class="step">
+                <div class="step-number">3️⃣</div>
+                <div class="step-content">
+                    <h2>Crear Repo en GitHub <span class="time-badge">5 min</span></h2>
+                    <p>GitHub almacena tu código y se conecta automáticamente a Vercel:</p>
+
+                    <ul class="checklist">
+                        <li>Ve a <a href="https://github.com/new" target="_blank">github.com/new</a></li>
+                        <li>Nombre: <code>aie-cuestionario-premium</code></li>
+                        <li>Descripción: "Sistema de cuestionario con Claude AI"</li>
+                        <li>Selecciona "Public"</li>
+                        <li>Click "Create repository"</li>
+                    </ul>
+
+                    <div class="tip">
+                        💡 <strong>Después de crear:</strong> GitHub te muestra comandos para subir el código. Guárdalos para el próximo paso.
+                    </div>
+
+                    <a href="https://github.com/new" target="_blank" class="button">
+                        🚀 Crear Repo en GitHub
+                    </a>
+                </div>
+            </div>
+
+            <!-- PASO 4 -->
+            <div class="step">
+                <div class="step-number">4️⃣</div>
+                <div class="step-content">
+                    <h2>Subir a GitHub <span class="time-badge">5 min</span></h2>
+                    <p>Copia tu código local a GitHub:</p>
+
+                    <div class="code-label">En tu terminal/PowerShell:</div>
+                    <div class="code-block">
+cd "C:\Users\nicolas\Desktop\clientes\AIE OS Presentacion"
+
+git remote add origin https://github.com/TU-USUARIO/aie-cuestionario-premium.git
+git branch -M main
+git push -u origin main
+                    </div>
+
+                    <div class="tip">
+                        💡 <strong>Reemplaza:</strong> TU-USUARIO con tu usuario de GitHub
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 5 -->
+            <div class="step">
+                <div class="step-number">5️⃣</div>
+                <div class="step-content">
+                    <h2>Conectar Vercel + GitHub <span class="time-badge">5 min</span></h2>
+                    <p>Vercel se conecta a tu repo de GitHub automáticamente:</p>
+
+                    <ul class="checklist">
+                        <li>Ve a <a href="https://vercel.com/new" target="_blank">vercel.com/new</a></li>
+                        <li>Click "Continue with GitHub"</li>
+                        <li>Autoriza Vercel</li>
+                        <li>Busca y selecciona <code>aie-cuestionario-premium</code></li>
+                        <li>Click "Import"</li>
+                        <li>Click "Deploy" 🚀</li>
+                    </ul>
+
+                    <div class="tip">
+                        💡 <strong>Espera 1-2 minutos:</strong> Vercel despliega automáticamente. Verás tu URL al terminar.
+                    </div>
+
+                    <a href="https://vercel.com/new" target="_blank" class="button success">
+                        → Ir a Vercel
+                    </a>
+                </div>
+            </div>
+
+            <!-- PASO 6 -->
+            <div class="step">
+                <div class="step-number">6️⃣</div>
+                <div class="step-content">
+                    <h2>Agregar Variables de Entorno <span class="time-badge">3 min</span></h2>
+                    <p>Configura tus 3 API keys en Vercel:</p>
+
+                    <ol style="margin-left: 20px; color: #666; line-height: 2;">
+                        <li>Ve a tu proyecto en Vercel dashboard</li>
+                        <li>Click "Settings" (arriba)</li>
+                        <li>Click "Environment Variables" (izquierda)</li>
+                        <li>Agrega estas 3 variables:
+                            <ul style="margin-top: 10px; margin-left: 20px;">
+                                <li><code>CLAUDE_API_KEY</code> = <code>sk-ant-...</code></li>
+                                <li><code>N8N_WEBHOOK_URL</code> = <code>https://n8n...</code></li>
+                                <li><code>CONTACT_EMAIL</code> = <code>hello@azloom.tech</code></li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <div class="tip">
+                        ⚠️ <strong>Importante:</strong> Después de agregar variables, haz "Redeploy":
+                        Settings → Deployments → Click en los 3 puntos (...) → "Redeploy"
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 7 -->
+            <div class="step">
+                <div class="step-number">7️⃣</div>
+                <div class="step-content">
+                    <h2>Test del Formulario <span class="time-badge">5 min</span></h2>
+                    <p>Verifica que todo funciona:</p>
+
+                    <ul class="checklist">
+                        <li>Abre tu URL de Vercel en el navegador</li>
+                        <li>Completa el formulario</li>
+                        <li>Haz click "Enviar cuestionario"</li>
+                        <li>Deberías ver "¡Gracias, Diego!"</li>
+                        <li>Revisa tu email (puede ir a SPAM)</li>
+                    </ul>
+
+                    <div class="tip">
+                        💡 <strong>Si hay error:</strong> Abre DevTools (F12) y revisa la consola o Network
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 8 -->
+            <div class="step">
+                <div class="step-number">8️⃣</div>
+                <div class="step-content">
+                    <h2>Configurar n8n Workflow <span class="time-badge">15 min</span></h2>
+                    <p>Configura el flujo automático en n8n:</p>
+
+                    <h3 style="color: #333; margin-top: 15px; margin-bottom: 8px;">Opción Fácil: Importar</h3>
+                    <ul class="checklist">
+                        <li>En n8n, click "Workflows"</li>
+                        <li>Click "Import"</li>
+                        <li>Sube <code>n8n-workflow-template.json</code></li>
+                        <li>Click "Import from file"</li>
+                    </ul>
+
+                    <h3 style="color: #333; margin-top: 15px; margin-bottom: 8px;">Si no funciona: Crear Manual</h3>
+                    <ul class="checklist">
+                        <li>Nuevo Workflow</li>
+                        <li>Agrega nodo Webhook (POST)</li>
+                        <li>Agrega nodo Gmail o SendGrid</li>
+                        <li>Autentica tu email</li>
+                        <li>Configura el template del email</li>
+                        <li>Activa el workflow</li>
+                    </ul>
+
+                    <div class="tip">
+                        💡 <strong>Email Template:</strong> Mira el archivo DEPLOY-CHECKLIST.md para el HTML del email
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 9 -->
+            <div class="step">
+                <div class="step-number">✅</div>
+                <div class="step-content">
+                    <h2>¡LISTO! 🎉</h2>
+                    <p>Tu sistema está funcionando. Ahora:</p>
+
+                    <ul class="checklist">
+                        <li>Comparte el link con tu cliente</li>
+                        <li>El cliente completa el formulario</li>
+                        <li>Las respuestas llegan a n8n</li>
+                        <li>Claude genera un resumen automático</li>
+                        <li>Se envía email con respuestas + resumen</li>
+                    </ul>
+
+                    <div style="margin-top: 20px; padding: 15px; background: #dbeafe; border-radius: 8px; border-left: 4px solid #0284c7;">
+                        <strong style="color: #0c4a6e;">📊 Próximos pasos (opcionales):</strong>
+                        <ul style="margin: 10px 0 0 20px; color: #0c4a6e;">
+                            <li>Monitorear respuestas en n8n</li>
+                            <li>Guardar respuestas en Google Sheets</li>
+                            <li>Integrar con tu CRM favorito</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-buttons" style="margin-top: 40px;">
+            <a href="./README.md" class="link-button">📚 Ver README.md</a>
+            <a href="./DEPLOY-CHECKLIST.md" class="link-button">✅ Ver Checklist</a>
+            <a href="./ESTRUCTURA.md" class="link-button">📁 Ver Estructura</a>
+            <a href="mailto:hello@azloom.tech" class="link-button">📧 Contacto</a>
+        </div>
+
+        <footer>
+            © 2024 Azloom - Soluciones de Tecnología para Construcción<br>
+            Sistema de Cuestionario Premium con Claude AI + n8n
+        </footer>
+    </div>
+</body>
+</html>
